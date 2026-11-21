@@ -1,0 +1,15 @@
+{
+  "name": "bill-payment-app-root",
+  "version": "1.0.0",
+  "description": "Bill Payment Application with Node.js backend and React frontend (Mock Data)",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "backend": "npm run dev --prefix backend",
+    "frontend": "npm run dev --prefix frontend",
+    "start:backend": "node backend/src/server.js",
+    "build:frontend": "npm run build --prefix frontend"
+  },
+  "keywords": ["bill-payment", "react", "nodejs", "mock-data"],
+  "author": "",
+  "license": "ISC"
+}
