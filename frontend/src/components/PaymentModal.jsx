@@ -34,7 +34,7 @@ export default function PaymentModal({ bill, isOpen, onClose, onPaymentSuccess }
       // Simulate realistic payment gateway processing delay
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      const res = await onPaymentSuccess(bill.id, {
+      await onPaymentSuccess(bill.id, {
         paymentMethod,
         paymentDetails
       });

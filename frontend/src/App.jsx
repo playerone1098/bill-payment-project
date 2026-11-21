@@ -8,7 +8,7 @@ import ReceiptModal from './components/ReceiptModal';
 import AddBillModal from './components/AddBillModal';
 import TransactionHistory from './components/TransactionHistory';
 import CategoryIcon from './components/CategoryIcon';
-import { Search, Plus, Filter, Loader2, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
+import { Search, Plus, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('bills');
@@ -67,22 +67,18 @@ export default function App() {
 
   // Handle Pay Bill
   const handlePaymentSuccess = async (billId, paymentData) => {
-    try {
-      const res = await api.payBill(billId, paymentData);
-      const { bill, transaction } = res.data;
+    const res = await api.payBill(billId, paymentData);
+    const { transaction } = res.data;
 
-      // Close pay modal & show receipt
-      setActiveBillToPay(null);
-      setActiveReceipt(transaction);
+    // Close pay modal & show receipt
+    setActiveBillToPay(null);
+    setActiveReceipt(transaction);
 
-      showToast(`Payment of $${transaction.amount.toFixed(2)} completed successfully!`);
+    showToast(`Payment of $${transaction.amount.toFixed(2)} completed successfully!`);
 
-      // Refresh data
-      loadData();
-      return res;
-    } catch (err) {
-      throw err;
-    }
+    // Refresh data
+    loadData();
+    return res;
   };
 
   // Handle View Receipt from BillCard
@@ -125,6 +121,7 @@ export default function App() {
         showToast('Mock data reset to initial demo state!');
         await loadData();
       } catch (err) {
+        console.error('Failed to reset mock data:', err);
         showToast('Failed to reset mock data.', 'error');
       } finally {
         setIsResetting(false);

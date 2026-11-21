@@ -198,15 +198,28 @@ export default function AddBillModal({ isOpen, onClose, categories, onBillAdded 
             </div>
 
             {/* Customer & Usage */}
-            <div className="form-group">
-              <label className="input-label">Usage / Plan Details (Optional)</label>
-              <input
-                type="text"
-                className="input-control"
-                value={unitsConsumed}
-                onChange={e => setUnitsConsumed(e.target.value)}
-                placeholder="e.g. 240 kWh units, Unlimited 200Mbps"
-              />
+            <div className="form-row-2">
+              <div className="form-group">
+                <label className="input-label">Customer Name</label>
+                <input
+                  type="text"
+                  className="input-control"
+                  value={customerName}
+                  onChange={e => setCustomerName(e.target.value)}
+                  placeholder="e.g. Alex Morgan"
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="input-label">Usage / Plan (Optional)</label>
+                <input
+                  type="text"
+                  className="input-control"
+                  value={unitsConsumed}
+                  onChange={e => setUnitsConsumed(e.target.value)}
+                  placeholder="e.g. 240 kWh, 200Mbps"
+                />
+              </div>
             </div>
 
             {error && (

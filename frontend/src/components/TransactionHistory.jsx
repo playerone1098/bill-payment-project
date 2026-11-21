@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import { Search, Receipt, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Search, Receipt, CheckCircle2 } from 'lucide-react';
 import CategoryIcon from './CategoryIcon';
 
 export default function TransactionHistory({ transactions, onSelectReceipt }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const filtered = transactions.filter(t => {
-    const matchesCategory = selectedCategory === 'all' || t.category.toLowerCase() === selectedCategory.toLowerCase();
     const q = searchTerm.toLowerCase().trim();
-    const matchesSearch = !q ||
+    return !q ||
       t.id.toLowerCase().includes(q) ||
       t.billerName.toLowerCase().includes(q) ||
       t.consumerId.toLowerCase().includes(q) ||
       t.paymentMethod.toLowerCase().includes(q);
-    return matchesCategory && matchesSearch;
   });
 
   return (

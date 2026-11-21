@@ -1,6 +1,5 @@
 import React from 'react';
-import { X, CheckCircle2, Download, Printer, ShieldCheck } from 'lucide-react';
-import CategoryIcon from './CategoryIcon';
+import { X, CheckCircle2, Printer, ShieldCheck } from 'lucide-react';
 
 export default function ReceiptModal({ receipt, isOpen, onClose }) {
   if (!isOpen || !receipt) return null;

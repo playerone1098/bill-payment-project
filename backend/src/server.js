@@ -1,10 +1,17 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import billsRouter from './routes/bills.js';
 import transactionsRouter from './routes/transactions.js';
 import categoriesRouter from './routes/categories.js';
 import summaryRouter from './routes/summary.js';
 import resetRouter from './routes/reset.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const frontendDist = path.resolve(__dirname, '../../frontend/dist');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -40,8 +47,19 @@ app.use('/api/categories', categoriesRouter);
 app.use('/api/summary', summaryRouter);
 app.use('/api/reset', resetRouter);
 
-// 404 Handler
-app.use((req, res) => {
+// Serve frontend static build if available (enables single-process full-stack offline mode)
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
+
+// 404 Handler for unhandled API routes
+app.use('/api', (req, res) => {
   res.status(404).json({
     success: false,
     message: `API route '${req.originalUrl}' not found.`
@@ -64,5 +82,8 @@ app.listen(PORT, () => {
   console.log(` 🚀 Bill Payment Mock Backend Server running `);
   console.log(` 🌐 URL: http://localhost:${PORT}`);
   console.log(` 🔍 Health check: http://localhost:${PORT}/api/health`);
+  if (fs.existsSync(frontendDist)) {
+    console.log(` 📱 Frontend served offline at: http://localhost:${PORT}`);
+  }
   console.log(`===============================================`);
 });
